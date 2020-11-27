@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/Screens/home/add_note.dart';
 import 'package:notes_app/services/auth.dart';
 
 class Home extends StatefulWidget {
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         backgroundColor: Colors.orange[700],
         title: Text('Notes'),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
@@ -33,6 +35,15 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_){
+            return AddNote(); 
+          }));
+        },
+        backgroundColor: Colors.orange[700],
+        child: Icon(Icons.add)
       ),
     );
   }
