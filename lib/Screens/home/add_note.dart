@@ -53,7 +53,7 @@ class _AddNoteState extends State<AddNote> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 3.0),
+                  borderSide: BorderSide(color: Colors.orange[700], width: 3.0),
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
@@ -77,7 +77,7 @@ class _AddNoteState extends State<AddNote> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 3.0),
+                  borderSide: BorderSide(color: Colors.orange[700], width: 3.0),
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
@@ -88,7 +88,7 @@ class _AddNoteState extends State<AddNote> {
               children: [
                 Column(
                   children: [
-                    Icon(Icons.calendar_today),
+                    Icon(Icons.calendar_today,color: Colors.orange[700]),
                     SizedBox(width: 5),
                     Text(
                       'From',
@@ -97,21 +97,23 @@ class _AddNoteState extends State<AddNote> {
                       ),
                     ),
                     SizedBox(height: 30),
-                    Icon(Icons.calendar_today),
+                    Icon(Icons.calendar_today,color: Colors.orange[700]),
                     SizedBox(width: 5),
                     Text(
                       'To',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+
                       ),
                     ),
                     SizedBox(height: 30),
-                    Icon(Icons.attach_file),
+                    Icon(Icons.attach_file,color: Colors.orange[700]),
                     SizedBox(width: 5),
                     Text(
                       'Attachment',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+
                       ),
                     ),
                   ],
@@ -164,7 +166,7 @@ class _AddNoteState extends State<AddNote> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Upload File'),
-                            Icon(Icons.cloud_upload)
+                            Icon(Icons.cloud_upload,color: Colors.orange[700],)
                           ],
                         ),
                       ),
@@ -173,13 +175,13 @@ class _AddNoteState extends State<AddNote> {
                 )
               ],
             ),
-            SizedBox(height: 125),
+            SizedBox(height: 75),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                     height: 45,
-                    width: 185,
+                    width: 170,
                     child: RaisedButton(
                       color: Colors.grey[100],
                       onPressed: () {
@@ -191,7 +193,7 @@ class _AddNoteState extends State<AddNote> {
                     )),
                 SizedBox(
                     height: 45,
-                    width: 185,
+                    width: 170,
                     child: RaisedButton(
                       color: Colors.orange[700],
                       onPressed: () async {
