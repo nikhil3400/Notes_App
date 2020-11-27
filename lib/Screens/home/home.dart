@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/Screens/home/add_note.dart';
 import 'package:notes_app/services/auth.dart';
+import 'package:wave_drawer/wave_drawer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,9 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-
   final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,16 +19,23 @@ class _HomeState extends State<Home> {
         title: Text('Notes'),
         centerTitle: true,
       ),
-      drawer: Drawer(
+      drawer: WaveDrawer(
+        backgroundColor: Colors.white,
+        boundaryColor: Colors.orange[700],
+        boundaryWidth: 8.0,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(child: Text('Account Details'),
-            decoration: BoxDecoration(color: Colors.orange[700]),
+            DrawerHeader(
+              child: Text(
+                'Account Details',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(color: Colors.orange[700]),
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Log Out'),
+              leading: Icon(Icons.logout,color: Colors.white,),
+              title: Text('Log Out',style: TextStyle(color: Colors.white),),
               onTap: () {
                 _auth.signOut();
               },
@@ -37,14 +44,13 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_){
-            return AddNote(); 
-          }));
-        },
-        backgroundColor: Colors.orange[700],
-        child: Icon(Icons.add)
-      ),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return AddNote();
+            }));
+          },
+          backgroundColor: Colors.orange[700],
+          child: Icon(Icons.add)),
     );
   }
 }
