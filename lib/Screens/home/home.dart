@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/Screens/home/add_note.dart';
 import 'package:notes_app/Screens/home/note.dart';
@@ -17,6 +16,7 @@ class _HomeState extends State<Home> {
   CollectionReference ref;
   List<int> _selected = new List<int>();
   List<DocumentReference> item = new List<DocumentReference>();
+  bool first = false;
 
   @override
   void initState() {
@@ -30,16 +30,28 @@ class _HomeState extends State<Home> {
     return (_selected.length > 0)
         ? AppBar(
             title: Text('${_selected.length} Note Selected'),
-            backgroundColor: Colors.orange[700],
+            backgroundColor: Colors.red[700],
             centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                setState(() {
+                  _selected.clear();
+                  first = false;
+                });
+              },
+              icon: Icon(Icons.arrow_back),
+            ),
             actions: [
               IconButton(
                 onPressed: () {
                   setState(() => _selected.clear());
-                  for(DocumentReference r in item){
+                  for (DocumentReference r in item) {
                     r.delete();
                   }
-                  setState(() => item.clear());
+                  setState(() {
+                    item.clear();
+                    first = false;
+                  });
                 },
                 icon: Icon(Icons.delete),
               )
@@ -73,20 +85,37 @@ class _HomeState extends State<Home> {
                     : Colors.transparent,
                 child: Note(
                   title: snapshot.data.documents[index].get('title'),
+                  description:
+                      snapshot.data.documents[index].get('description'),
                   onTap: () {
                     if (_selected.contains(index)) {
-                      setState(() => _selected.removeWhere((val) => val == index));
-                      DocumentReference docRef = snapshot.data.documents[index].reference;
+                      setState(() {
+                        _selected.removeWhere((val) => val == index);
+                        if (_selected.length == 0) first = false;
+                      });
+                      DocumentReference docRef =
+                          snapshot.data.documents[index].reference;
                       item.remove(docRef);
+                    } else if (first) {
+                      setState(() => _selected.add(index));
+                      DocumentReference docRef =
+                          snapshot.data.documents[index].reference;
+                      item.add(docRef);
                     }
+                    //else{
                     // Navigator.push(context, MaterialPageRoute(builder: (_){
-                    //   return ; 
+                    //   return ;
                     // }));
+                    //}
                   },
                   onLongPress: () {
                     if (!_selected.contains(index)) {
-                      setState(() => _selected.add(index));
-                      DocumentReference docRef = snapshot.data.documents[index].reference;
+                      setState(() {
+                        _selected.add(index);
+                        first = true;
+                      });
+                      DocumentReference docRef =
+                          snapshot.data.documents[index].reference;
                       item.add(docRef);
                     }
                   },
