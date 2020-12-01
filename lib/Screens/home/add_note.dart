@@ -175,13 +175,13 @@ class _AddNoteState extends State<AddNote> {
                 )
               ],
             ),
-            SizedBox(height: 75),
+            SizedBox(height: MediaQuery.of(context).size.height / 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                    height: 45,
-                    width: 170,
+                    height: MediaQuery.of(context).size.height / 18,
+                    width: (MediaQuery.of(context).size.width / 2) - 20,
                     child: RaisedButton(
                       color: Colors.grey[100],
                       onPressed: () {
@@ -192,8 +192,8 @@ class _AddNoteState extends State<AddNote> {
                       ),
                     )),
                 SizedBox(
-                    height: 45,
-                    width: 170,
+                    height: MediaQuery.of(context).size.height / 18,
+                    width: (MediaQuery.of(context).size.width / 2) - 20,
                     child: RaisedButton(
                       color: Colors.orange[700],
                       onPressed: () async {
