@@ -1,11 +1,26 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_field/date_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/services/database.dart';
 
 class Update extends StatefulWidget {
+  final String title;
+  final String description;
+  final DateTime from;
+  final DateTime to;
+  final DocumentReference docRef;
+
+  Update({
+    this.title,
+    this.description,
+    this.from,
+    this.to,
+    this.docRef
+  });
+
   @override
   _UpdateState createState() => _UpdateState();
 }
@@ -14,11 +29,21 @@ class _UpdateState extends State<Update> {
 
   String inputTitle;
   String inputDescription;
-  DateTime dateFrom = DateTime.now();
-  DateTime dateTo = DateTime.now();
+  DateTime dateFrom;
+  DateTime dateTo;
   DataBase obj;
   File pickedFile;
 
+  @override
+  void initState() {
+    setState(() {
+      inputTitle = widget.title;
+      inputDescription = widget.description;
+      dateTo = widget.to;
+      dateFrom = widget.from;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +64,8 @@ class _UpdateState extends State<Update> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 25),
-            TextField(
+            TextFormField(
+              initialValue: inputTitle,
               autofocus: true,
               onChanged: (newText) {
                 inputTitle = newText;
@@ -62,7 +88,8 @@ class _UpdateState extends State<Update> {
               ),
             ),
             SizedBox(height: 30),
-            TextField(
+            TextFormField(
+              initialValue: inputDescription,
               keyboardType: TextInputType.multiline,
               maxLines: 9,
               onChanged: (newText) {
@@ -201,12 +228,13 @@ class _UpdateState extends State<Update> {
                       color: Colors.orange[700],
                       onPressed: () async {
                         obj = new DataBase(
+                            docRef: widget.docRef,
                             title: inputTitle,
                             description: inputDescription,
                             from: dateFrom,
                             to: dateTo,
                             file: pickedFile);
-                        await obj.uploadData();
+                        await obj.updateData();
                         Navigator.of(context).pop();
                       },
                       child: Center(

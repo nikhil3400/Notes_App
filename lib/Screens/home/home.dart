@@ -112,6 +112,7 @@ class _HomeState extends State<Home> {
                         dateFrom: snapshot.data.documents[index].get('from').toDate(),
                         dateTo: snapshot.data.documents[index].get('to').toDate(),
                         url: snapshot.data.documents[index].get('url'),
+                        ref: snapshot.data.documents[index].reference
                       );
                     }));
                     }

@@ -1,74 +1,79 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/Screens/update.dart';
 import 'package:notes_app/services/database.dart';
 
 class Details extends StatefulWidget {
-  String inputTitle;
-  String inputDescription;
-  DateTime dateFrom;
-  DateTime dateTo;
-  DataBase obj;
-  String url;
+  final String inputTitle;
+  final String inputDescription;
+  final DateTime dateFrom;
+  final DateTime dateTo;
+  final DataBase obj;
+  final String url;
+  final DocumentReference ref;
 
   Details(
       {this.inputTitle,
-        this.inputDescription,
-        this.dateFrom,
-        this.dateTo,
-        this.obj,
-        this.url});
+      this.inputDescription,
+      this.dateFrom,
+      this.dateTo,
+      this.obj,
+      this.url,
+      this.ref});
 
   @override
   _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
-
   @override
   Widget build(BuildContext context) {
-
-    final downloadButton = IconButton(icon: Icon(Icons.edit_outlined,color: Colors.white,), onPressed: (){
-      Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return Update();
-      }));
-    });
+    final editButton = IconButton(
+        icon: Icon(
+          Icons.edit_outlined,
+          color: Colors.deepOrange
+        ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return Update(
+              title: widget.inputTitle,
+              description: widget.inputDescription,
+              from: widget.dateFrom,
+              to: widget.dateTo,
+              docRef: widget.ref
+            );
+          }));
+        });
 
     final topContentText = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 120.0),
+        SizedBox(height: MediaQuery.of(context).size.height / 10),
         Icon(
           Icons.notes,
           color: Colors.white,
-          size: 40.0,
+          size: 70.0,
         ),
         Container(
-          width: 90.0,
+          width: MediaQuery.of(context).size.width - 20,
           child: new Divider(color: Colors.white),
         ),
         SizedBox(height: 10.0),
         Text(
-          widget.inputTitle,
-          style: TextStyle(color: Colors.white, fontSize: 45.0),
+          widget.inputTitle.toUpperCase(),
+          style: TextStyle(color: Colors.white, fontSize: 40.0,fontStyle: FontStyle.italic),
         ),
         SizedBox(height: 30.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-                flex: 6,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      '${widget.dateFrom} - ${widget.dateTo}',
-                      style: TextStyle(color: Colors.white),
-                    ))),
-            Expanded(flex: 1, child: downloadButton),
-          ],
-        ),
+        Expanded(
+            flex: 6,
+            child: Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  '${widget.dateFrom} - ${widget.dateTo}',
+                  style: TextStyle(color: Colors.white),
+                ))),
       ],
     );
-
 
     final topContent = Stack(
       children: <Widget>[
@@ -90,7 +95,14 @@ class _DetailsState extends State<Details> {
             },
             child: Icon(Icons.arrow_back, color: Colors.white),
           ),
-        )
+        ),
+        Positioned(right: 8.0, top: 55.0, child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle
+          ),
+          child: editButton
+          ))
       ],
     );
 
@@ -104,8 +116,7 @@ class _DetailsState extends State<Details> {
         child: RaisedButton(
           onPressed: () => {},
           color: Colors.orange[700],
-          child:
-          Text("Download Docs", style: TextStyle(color: Colors.white)),
+          child: Text("Download Docs", style: TextStyle(color: Colors.white)),
         ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
@@ -119,7 +130,7 @@ class _DetailsState extends State<Details> {
 
     return Scaffold(
       body: Column(
-        children: <Widget>[topContent,bottomContent],
+        children: <Widget>[topContent, bottomContent],
       ),
     );
   }
