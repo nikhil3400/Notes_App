@@ -6,6 +6,8 @@ import 'package:notes_app/Screens/home/note.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:wave_drawer/wave_drawer.dart';
 
+import '../details.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -102,11 +104,17 @@ class _HomeState extends State<Home> {
                           snapshot.data.documents[index].reference;
                       item.add(docRef);
                     }
-                    //else{
-                    // Navigator.push(context, MaterialPageRoute(builder: (_){
-                    //   return ;
-                    // }));
-                    //}
+                    else{
+                    Navigator.push(context, MaterialPageRoute(builder: (_){
+                      return Details(
+                        inputTitle: snapshot.data.documents[index].get('title'),
+                        inputDescription: snapshot.data.documents[index].get('description'),
+                        dateFrom: snapshot.data.documents[index].get('from').toDate(),
+                        dateTo: snapshot.data.documents[index].get('to').toDate(),
+                        url: snapshot.data.documents[index].get('url'),
+                      );
+                    }));
+                    }
                   },
                   onLongPress: () {
                     if (!_selected.contains(index)) {
