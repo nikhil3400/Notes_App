@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_app/Screens/update.dart';
 import 'package:notes_app/services/database.dart';
 
@@ -26,13 +27,20 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+  String from;
+  String to;
+
+  @override
+  void initState() {
+    from = DateFormat('dd-MM-yyyy - hh:mm a').format(widget.dateFrom);
+    to = DateFormat('dd-MM-yyyy - hh:mm a').format(widget.dateTo);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final editButton = IconButton(
-        icon: Icon(
-          Icons.edit_outlined,
-          color: Colors.deepOrange
-        ),
+        icon: Icon(Icons.edit_outlined, color: Colors.deepOrange),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
             return Update(
@@ -40,7 +48,7 @@ class _DetailsState extends State<Details> {
               description: widget.inputDescription,
               from: widget.dateFrom,
               to: widget.dateTo,
-              docRef: widget.ref
+              docRef: widget.ref,
             );
           }));
         });
@@ -61,16 +69,21 @@ class _DetailsState extends State<Details> {
         SizedBox(height: 10.0),
         Text(
           widget.inputTitle.toUpperCase(),
-          style: TextStyle(color: Colors.white, fontSize: 40.0,fontStyle: FontStyle.italic),
+          style: TextStyle(
+              color: Colors.white, fontSize: 40.0, fontStyle: FontStyle.italic),
         ),
-        SizedBox(height: 30.0),
+        SizedBox(height: 20.0),
         Expanded(
             flex: 6,
             child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Text(
-                  '${widget.dateFrom} - ${widget.dateTo}',
-                  style: TextStyle(color: Colors.white),
+                  'From: ${from}\nTo: ${to}',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
                 ))),
       ],
     );
@@ -96,13 +109,13 @@ class _DetailsState extends State<Details> {
             child: Icon(Icons.arrow_back, color: Colors.white),
           ),
         ),
-        Positioned(right: 8.0, top: 55.0, child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle
-          ),
-          child: editButton
-          ))
+        Positioned(
+            right: 8.0,
+            top: 55.0,
+            child: Container(
+                decoration:
+                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                child: editButton))
       ],
     );
 
@@ -110,27 +123,26 @@ class _DetailsState extends State<Details> {
       widget.inputDescription,
       style: TextStyle(fontSize: 18.0),
     );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
+    final readButton = SizedBox(
+        width: MediaQuery.of(context).size.width - 40,
         child: RaisedButton(
           onPressed: () => {},
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           color: Colors.orange[700],
           child: Text("Download Docs", style: TextStyle(color: Colors.white)),
         ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
-      child: Center(
-        child: Column(
-          children: <Widget>[bottomContentText, readButton],
-        ),
-      ),
+      child: Center(child: bottomContentText),
     );
 
     return Scaffold(
       body: Column(
-        children: <Widget>[topContent, bottomContent],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[topContent, bottomContent, readButton],
       ),
     );
   }

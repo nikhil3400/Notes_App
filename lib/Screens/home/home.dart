@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/Screens/home/add_note.dart';
 import 'package:notes_app/Screens/home/note.dart';
 import 'package:notes_app/services/auth.dart';
-import 'package:wave_drawer/wave_drawer.dart';
-
 import '../details.dart';
 
 class Home extends StatefulWidget {
@@ -134,29 +132,16 @@ class _HomeState extends State<Home> {
           );
         },
       ),
-      drawer: WaveDrawer(
-        backgroundColor: Colors.white,
-        boundaryColor: Colors.orange[700],
-        boundaryWidth: 8.0,
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'Account Details',
-                style: TextStyle(color: Colors.white),
-              ),
-              decoration: BoxDecoration(color: Colors.orange[700]),
+            DrawerHeader(child: Text('Account Details'),
+            decoration: BoxDecoration(color: Colors.orange[700]),
             ),
             ListTile(
-              leading: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Log Out',
-                style: TextStyle(color: Colors.white),
-              ),
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
               onTap: () {
                 _auth.signOut();
               },

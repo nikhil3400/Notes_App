@@ -51,7 +51,7 @@ class _UpdateState extends State<Update> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.orange[700],
-        title: Text('Update'),
+        title: Text('Edit Details'),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
